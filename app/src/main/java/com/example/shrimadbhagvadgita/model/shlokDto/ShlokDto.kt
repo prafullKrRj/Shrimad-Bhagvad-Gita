@@ -1,6 +1,5 @@
 package com.example.shrimadbhagvadgita.model.shlokDto
 
-import androidx.room.TypeConverters
 import com.google.gson.annotations.SerializedName
 
 data class ShlokDto(
@@ -59,5 +58,5 @@ data class ShlokDto(
 )
 
 class TypeConverter {
-    @TypeConverters
+
 }

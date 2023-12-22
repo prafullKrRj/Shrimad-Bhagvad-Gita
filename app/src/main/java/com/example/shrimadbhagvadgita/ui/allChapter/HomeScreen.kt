@@ -1,6 +1,6 @@
 package com.example.shrimadbhagvadgita.ui.allChapter
 
-import android.content.Context
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,32 +14,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.shrimadbhagvadgita.model.ChaptersCombined.Chapters
+import com.example.shrimadbhagvadgita.ViewModel
 import com.example.shrimadbhagvadgita.model.ChaptersCombined.ChaptersModelDto
 import com.example.shrimadbhagvadgita.ui.Screens
-import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
-fun HomeScreen(navController: NavController) {
-    var chapters by rememberSaveable {
-        mutableStateOf(Chapters())
-    }
+fun HomeScreen(navController: NavController, viewModel: ViewModel) {
+    val chapters = viewModel.chapters.value
     val context = LocalContext.current
     LaunchedEffect(context) {
-        val data = readJsonData(context, "chapters/chapters.json")
-        chapters = Gson().fromJson(data, Chapters::class.java)
+        viewModel.getChapters()
     }
     Scaffold(
         topBar = {
@@ -99,11 +90,4 @@ fun AppBar(title: String) {
             )
         }
     )
-}
-suspend fun readJsonData(context: Context, fileName: String): String =
-    withContext(Dispatchers.IO) {
-        val inputStream = context.assets.open(fileName)
-        val jsonString = inputStream.bufferedReader().use { it.readText() }
-        inputStream.close()
-        jsonString
 }
