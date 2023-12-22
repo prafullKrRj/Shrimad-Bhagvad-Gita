@@ -87,18 +87,24 @@ fun ChapterScreen(chapterNumber: Int, viewModel: ViewModel, navController: NavHo
 
 @Composable
 fun ChapterScreenUi(modifier: Modifier, chapter: SingleChapter) {
-    Column(
+    LazyColumn(
         modifier = modifier,
     ) {
-        Text(text = "${chapter.chapter_number} ${chapter.name}")
-        if (chapter.summary.en.isNotBlank()) {
-            Text(text = chapter.summary.en)
+        item {
+            Text(text = "${chapter.chapter_number} ${chapter.name}")
         }
-        if (chapter.summary.hi.isNotBlank()) {
-            Text(text = chapter.summary.hi)
+        item {
+            if (chapter.summary.en.isNotBlank()) {
+                Text(text = chapter.summary.en)
+            }
         }
-        if (chapter.translation.isNotBlank()) {
-            Text(text = chapter.translation)
+        item {
+            if (chapter.summary.hi.isNotBlank()) {
+                Text(text = chapter.summary.hi)
+            }
+            if (chapter.translation.isNotBlank()) {
+                Text(text = chapter.translation)
+            }
         }
     }
 }
