@@ -57,6 +57,3 @@ data class ShlokDto(
     val verse: Int
 )
 
-class TypeConverter {
-
-}

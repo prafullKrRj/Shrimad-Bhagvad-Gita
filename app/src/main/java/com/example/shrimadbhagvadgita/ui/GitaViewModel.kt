@@ -1,4 +1,4 @@
-package com.example.shrimadbhagvadgita
+package com.example.shrimadbhagvadgita.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.MutableState
@@ -8,19 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.shrimadbhagvadgita.BhagvatGitaApplication
 import com.example.shrimadbhagvadgita.data.BhagvatGitaRepository
 import com.example.shrimadbhagvadgita.model.ChaptersCombined.Chapters
 import com.example.shrimadbhagvadgita.model.SingleChapter.SingleChapter
 import com.example.shrimadbhagvadgita.model.shlokDto.ShlokDto
 
-class ViewModel(
+class GitaViewModel(
     private val bhagvatGitaRepository: BhagvatGitaRepository
 ): ViewModel() {
 
     val shloks: MutableState<List<ShlokDto>> = mutableStateOf(listOf())
     @SuppressLint("MutableCollectionMutableState")
     val chapters: MutableState<Chapters> = mutableStateOf(Chapters())
-    val singleChapter: MutableState<SingleChapter?> = mutableStateOf<SingleChapter?>(null)
+    val singleChapter: MutableState<SingleChapter?> = mutableStateOf(null)
     suspend fun getShloks(chapter: Int, totalVerses: Int){
         shloks.value = bhagvatGitaRepository.getShloks(chapter, totalVerses)
     }
@@ -38,7 +39,7 @@ class ViewModel(
             initializer {
                 val application = (this[APPLICATION_KEY] as BhagvatGitaApplication)
                 val bhagvatGitaRepository = application.container.bhagvatGitaRepository
-                ViewModel(bhagvatGitaRepository = bhagvatGitaRepository)
+                GitaViewModel(bhagvatGitaRepository = bhagvatGitaRepository)
             }
         }
     }

@@ -1,12 +1,30 @@
 package com.example.shrimadbhagvadgita.model.shlokDto
 
-import com.google.gson.annotations.SerializedName
-
 data class Abhinav(
-    @SerializedName("author")
     val author: String,
-    @SerializedName("et")
-    val et: String,
-    @SerializedName("sc")
-    val sc: String
+    var et: String? = null,
+    var sc: String? = null,
+    var ec: String? = null,
+    var hc: String? = null,
+    var ht: String? = null,
+) {
+    fun toAuthorDetails(): AuthorDetails{
+        return AuthorDetails(
+            author = this.author,
+            et = this.et,
+            sc = this.sc,
+            ec = this.ec,
+            hc = this.hc,
+            ht = this.ht,
+        )
+    }
+}
+
+data class AuthorDetails (
+    var author: String,
+    val et: String? = null,
+    val sc: String? = null,
+    val ec: String? = null,
+    val hc: String? = null,
+    val ht: String? = null,
 )
