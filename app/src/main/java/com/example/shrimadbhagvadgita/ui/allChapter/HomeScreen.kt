@@ -33,7 +33,7 @@ import com.example.shrimadbhagvadgita.ui.allChapter.components.ChapterNameCard
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomeScreen(navController: NavController, gitaViewModel: GitaViewModel) {
-    val chapters = gitaViewModel.chapters.value
+    val chapters = gitaViewModel.chapters
     val context = LocalContext.current
     LaunchedEffect(context) {
         gitaViewModel.getChapters()

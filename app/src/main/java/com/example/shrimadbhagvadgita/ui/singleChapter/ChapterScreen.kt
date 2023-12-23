@@ -26,8 +26,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChapterScreen(chapterNumber: Int, gitaViewModel: GitaViewModel, navController: NavHostController) {
     val scope = rememberCoroutineScope()
-    val chapterDetail = gitaViewModel.singleChapter.value
-    val shloks = gitaViewModel.shloks.value
+    val chapterDetail = gitaViewModel.singleChapter
+    val shloks = gitaViewModel.shloks
     val context = LocalContext.current
     val pagerState = rememberPagerState(
         initialPage = 0,

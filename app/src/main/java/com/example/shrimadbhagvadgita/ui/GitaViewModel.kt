@@ -1,8 +1,8 @@
 package com.example.shrimadbhagvadgita.ui
 
-import android.annotation.SuppressLint
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -18,21 +18,22 @@ class GitaViewModel(
     private val bhagvatGitaRepository: BhagvatGitaRepository
 ): ViewModel() {
 
-    val shloks: MutableState<List<ShlokDto>> = mutableStateOf(listOf())
-    @SuppressLint("MutableCollectionMutableState")
-    val chapters: MutableState<Chapters> = mutableStateOf(Chapters())
-    val singleChapter: MutableState<SingleChapter?> = mutableStateOf(null)
+    var shloks: List<ShlokDto> by mutableStateOf(
+        mutableListOf()
+    )
+    var chapters: Chapters by mutableStateOf(Chapters())
+    var singleChapter: SingleChapter? by mutableStateOf(null)
     suspend fun getShloks(chapter: Int, totalVerses: Int){
-        shloks.value = bhagvatGitaRepository.getShloks(chapter, totalVerses)
+        shloks = bhagvatGitaRepository.getShloks(chapter, totalVerses)
     }
     suspend fun getChapters() {
-        chapters.value =  bhagvatGitaRepository.getChapters()
+        chapters =  bhagvatGitaRepository.getChapters()
     }
     suspend fun getSingleChapter(chapter: Int) {
-        singleChapter.value =  bhagvatGitaRepository.getSingleChapter(chapter = chapter)
+        singleChapter =  bhagvatGitaRepository.getSingleChapter(chapter = chapter)
     }
     fun getShlok(int: Int?): ShlokDto {
-        return shloks.value[int!!-1]
+        return shloks[int!!-1]
     }
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

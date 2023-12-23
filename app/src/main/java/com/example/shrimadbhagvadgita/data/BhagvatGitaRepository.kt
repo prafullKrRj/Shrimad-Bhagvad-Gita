@@ -1,6 +1,7 @@
 package com.example.shrimadbhagvadgita.data
 
 import android.content.Context
+import android.util.Log
 import com.example.shrimadbhagvadgita.model.ChaptersCombined.Chapters
 import com.example.shrimadbhagvadgita.model.SingleChapter.SingleChapter
 import com.example.shrimadbhagvadgita.model.shlokDto.ShlokDto
@@ -20,6 +21,7 @@ class BhagvatGitaRepositoryImpl(
     override suspend fun getShloks(chapter: Int, totalVerses: Int): MutableList<ShlokDto> {
         val list: MutableList<ShlokDto> = mutableListOf()
         for (slok in 1..totalVerses) {
+            Log.d("prafull", "getShloks: $chapter")
             val data = readJsonData(context, "slok/${chapter}/${slok}/index.json")
             list.add(Gson().fromJson(data, ShlokDto::class.java))
         }
