@@ -1,6 +1,7 @@
 package com.example.shrimadbhagvadgita.ui.singleChapter
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,10 +9,14 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -26,8 +31,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChapterScreen(chapterNumber: Int, gitaViewModel: GitaViewModel, navController: NavHostController) {
     val scope = rememberCoroutineScope()
-    val chapterDetail = gitaViewModel.singleChapter
-    val shloks = gitaViewModel.shloks
+    val uiState by gitaViewModel.uiState.collectAsState()
     val context = LocalContext.current
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -41,7 +45,7 @@ fun ChapterScreen(chapterNumber: Int, gitaViewModel: GitaViewModel, navControlle
     Scaffold(
         topBar = {
             AppBar(
-                label = chapterDetail?.name,
+                label = uiState.singleChapter?.name,
                 navIconClicked = {
                     navController.popBackStack()
                 },
@@ -49,14 +53,14 @@ fun ChapterScreen(chapterNumber: Int, gitaViewModel: GitaViewModel, navControlle
             )
         }
     ) { paddingValues ->
-        if (chapterDetail != null) {
+        if (uiState.singleChapter != null) {
             Column(modifier = Modifier.fillMaxSize()) {
                 HorizontalPager(state = pagerState, userScrollEnabled = true) {
                     when (it) {
                         0 -> {
                             ChapterScreenUi(modifier = Modifier
                                 .fillMaxSize()
-                                .padding(paddingValues), chapter = chapterDetail
+                                .padding(paddingValues), chapter = uiState.singleChapter!!
                             ) {
                                 scope.launch {
                                     pagerState.animateScrollToPage(1)
@@ -64,20 +68,24 @@ fun ChapterScreen(chapterNumber: Int, gitaViewModel: GitaViewModel, navControlle
                             }
                         }
                         1 -> {
-                            if (shloks.isEmpty()) {
-                                LaunchedEffect(Unit) {
-                                    gitaViewModel.getShloks(chapterNumber, chapterDetail.verses_count)
-                                }
+                            LaunchedEffect(Unit) {
+                                gitaViewModel.getShloks(chapterNumber, uiState.singleChapter!!.verses_count)
                             }
-                            ShloksView(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(paddingValues),
-                                shloks = shloks,
-                                navigateToShlok = { shlok ->
-                                    navController.navigate(Screens.SHLOK.name+"/$chapterNumber/$shlok")
+                            if (uiState.loading) {
+                                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                    CircularProgressIndicator()
                                 }
-                            )
+                            } else {
+                                ShloksView(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(paddingValues),
+                                    shloks = uiState.shloks,
+                                    navigateToShlok = { shlok ->
+                                        navController.navigate(Screens.SHLOK.name+"/$chapterNumber/$shlok")
+                                    }
+                                )
+                            }
                         }
                     }
                 }

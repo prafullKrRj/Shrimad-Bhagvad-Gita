@@ -19,6 +19,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -28,12 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.shrimadbhagvadgita.ui.GitaViewModel
 import com.example.shrimadbhagvadgita.ui.Screens
+import com.example.shrimadbhagvadgita.ui.UiState
 import com.example.shrimadbhagvadgita.ui.allChapter.components.ChapterNameCard
 
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun HomeScreen(navController: NavController, gitaViewModel: GitaViewModel) {
-    val chapters = gitaViewModel.chapters
+    val uiState: UiState by gitaViewModel.uiState.collectAsState()
     val context = LocalContext.current
     LaunchedEffect(context) {
         gitaViewModel.getChapters()
@@ -60,7 +63,7 @@ fun HomeScreen(navController: NavController, gitaViewModel: GitaViewModel) {
                 modifier = Modifier.padding(vertical = 16.dp),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
-                chapters.forEachIndexed { index, chapterModelDto ->
+                uiState.chapters.forEachIndexed { index, chapterModelDto ->
                     item {
                         ChapterNameCard(index, chapterModelDto) {
                             navController.navigate(route = Screens.CHAPTER.name+"/${index+1}")
