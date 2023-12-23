@@ -36,6 +36,7 @@ fun Gita() {
         }
     }
 }
+
 enum class Screens {
     MAIN, CHAPTER, SHLOK
 }
