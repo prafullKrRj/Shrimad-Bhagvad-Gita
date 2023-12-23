@@ -26,6 +26,7 @@ import com.example.shrimadbhagvadgita.model.ChaptersCombined.ChaptersModelDto
 @Composable
 fun ChapterNameCard(index: Int, chapterModelDto: ChaptersModelDto, onClick: () -> Unit) {
     OutlinedCard(
+        shape = RoundedCornerShape(20),
         modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 70.dp)
@@ -34,7 +35,6 @@ fun ChapterNameCard(index: Int, chapterModelDto: ChaptersModelDto, onClick: () -
                 onClick()
             },
         colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
-        shape = RoundedCornerShape(20)
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             Text(

@@ -6,7 +6,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -57,17 +60,18 @@ fun ShlokScreen(shlokDto: ShlokDto, navController: NavHostController) {
         ) {
             item {
                 Card {
-                    Row(
+                    Column(
                         Modifier
                             .fillMaxWidth()
-                            .padding(12.dp), horizontalArrangement = Arrangement.Center) {
+                            .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(text = shlokDto.slok, textAlign = TextAlign.Center)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(text = shlokDto.transliteration, textAlign = TextAlign.Center)
                     }
                 }
             }
             item {
                 Authors(shlok = shlokDto)
-                Text(text = shlokDto.jaya.author ?: "")
             }
         }
     }
@@ -75,10 +79,11 @@ fun ShlokScreen(shlokDto: ShlokDto, navController: NavHostController) {
 
 @Composable
 fun Authors(shlok: ShlokDto) {
-    AuthorCard(authorDetails = shlok.abhinav.toAuthorDetails())
-    AuthorCard(authorDetails = shlok.jaya.toAuthorDetails())
     AuthorCard(authorDetails = shlok.adi.toAuthorDetails())
     AuthorCard(authorDetails = shlok.chinmay.toAuthorDetails())
+    AuthorCard(authorDetails = shlok.sankar.toAuthorDetails())
+    AuthorCard(authorDetails = shlok.abhinav.toAuthorDetails())
+    AuthorCard(authorDetails = shlok.jaya.toAuthorDetails())
     AuthorCard(authorDetails = shlok.anand.toAuthorDetails())
     AuthorCard(authorDetails = shlok.dhan.toAuthorDetails())
     AuthorCard(authorDetails = shlok.gambir.toAuthorDetails())
@@ -90,7 +95,7 @@ fun Authors(shlok: ShlokDto) {
     AuthorCard(authorDetails = shlok.raman.toAuthorDetails())
     AuthorCard(authorDetails = shlok.rams.toAuthorDetails())
     AuthorCard(authorDetails = shlok.san.toAuthorDetails())
-    AuthorCard(authorDetails = shlok.sankar.toAuthorDetails())
+
     AuthorCard(authorDetails = shlok.siva.toAuthorDetails())
     AuthorCard(authorDetails = shlok.srid.toAuthorDetails())
     AuthorCard(authorDetails = shlok.tej.toAuthorDetails())
@@ -135,28 +140,26 @@ fun AuthorCard(
                         } else {
                             painterResource(id = R.drawable.down)
                         },
-                        contentDescription = "Menu"
+                        contentDescription = "Expand"
                     )
                 }
             }
             if (expandCard) {
                 if (!authorDetails.sc.isNullOrEmpty()) {
-                    InternalSummaryCard(language = "et", content = authorDetails.sc)
+                    InternalSummaryCard(language = "sc", content = authorDetails.sc)
                 }
                 if (!authorDetails.et.isNullOrEmpty()) {
                     InternalSummaryCard(language = "et", content = authorDetails.et)
                 }
                 if (!authorDetails.hc.isNullOrEmpty()) {
-                    InternalSummaryCard(language = "et", content = authorDetails.hc)
+                    InternalSummaryCard(language = "hc", content = authorDetails.hc)
                 }
                 if (!authorDetails.ht.isNullOrEmpty()) {
-                    InternalSummaryCard(language = "et", content = authorDetails.ht)
+                    InternalSummaryCard(language = "ht", content = authorDetails.ht)
                 }
-
                 if (!authorDetails.ec.isNullOrEmpty()) {
-                    InternalSummaryCard(language = "et", content = authorDetails.ec)
+                    InternalSummaryCard(language = "ec", content = authorDetails.ec)
                 }
-
             }
         }
     }
@@ -170,8 +173,13 @@ private fun checkNull(authorDetails: AuthorDetails): Boolean {
 }
 @Composable
 private fun InternalSummaryCard(language: String, content: String) {
+    var seeMore by rememberSaveable {
+        mutableStateOf(false)
+    }
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
         Column(
@@ -180,7 +188,21 @@ private fun InternalSummaryCard(language: String, content: String) {
                 .padding(16.dp)
         ) {
             Text(text = language, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontStyle = FontStyle.Italic)
-            Text(text = content, fontSize = 16.sp)
+            Text(
+                text = if (content.length > 300 && !seeMore) {
+                    content.substring(0, 300)+"..."
+                } else {
+                    content
+                }, fontSize = 16.sp
+            )
+            if (content.length > 300) {
+                TextButton(onClick = { seeMore = !seeMore }, modifier = Modifier.align(Alignment.End)) {
+                    Text(
+                        text = if (seeMore) "See Less" else "See More",
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         }
     }
 }
