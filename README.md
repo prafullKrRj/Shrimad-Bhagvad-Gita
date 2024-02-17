@@ -2,7 +2,7 @@
 
 <p id="description"> Shrimad BhgvadGita is an ocean of vedanta philosophy. Deep Dive into the most spiritual hindu text using our app which provides complete translation of bhagvad gita with many commentators.
 <h2>Project Video</h2>
-[Watch the demo video](https://www.youtube.com/watch?v=sEwiqI9DY-E)
+[Watch the demo video](https://www.youtube.com/watch?v=B-h54E3JYQU)
 <h2>Project Screenshots:</h2>
 
 <img src="https://raw.githubusercontent.com/prafullKrRj/Shrimad-Bhagvad-Gita/master/Screenshot%202024-02-17%20095416.png" alt="project-screenshot" width="783.5" height="427/">
