@@ -1,4 +1,4 @@
-<h1 align="center" id="title">BookHive</h1>
+<h1 align="center" id="title">Shrimad BhagvadGita</h1>
 
 <p id="description"> Shrimad BhgvadGita is an ocean of vedanta philosophy. Deep Dive into the most spiritual hindu text using our app which provides complete translation of bhagvad gita with many commentators.
 <h2>Project Video</h2>
