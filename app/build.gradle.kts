@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.shrimadbhagvadgita"
+    namespace = "com.prafull.shrimadbhagvadgita"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.shrimadbhagvadgita"
+        applicationId = "com.prafull.shrimadbhagvadgita"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -68,7 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 // Retrofit with Scalar Converter
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
@@ -80,11 +79,11 @@ dependencies {
 
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation ("com.google.accompanist:accompanist-coil:0.12.0")
+    implementation("com.google.accompanist:accompanist-coil:0.12.0")
     implementation("com.google.code.gson:gson:2.8.6")
 }
